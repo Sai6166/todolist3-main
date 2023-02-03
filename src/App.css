@@ -1,0 +1,832 @@
+@import url("https://fonts.googleapis.com/css2?family=Catamaran:wght@600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Catamaran:wght@100&display=swap");
+@import url('../src/styles/var.css');
+
+*,
+*:before,
+*:after {
+  padding   : 0;
+  margin    : 0;
+  box-sizing: border-box;
+}
+
+img,
+btn,
+nav,
+.header-text {
+  user-select: none;
+}
+
+btn,
+.add-btn,
+.todo-checkbox,
+.todo-checkbox-fill,
+.todo-label {
+  cursor: pointer;
+}
+
+
+body {
+  height          : 100%;
+  display         : flex;
+  justify-content : center;
+  background-color: var(--background-gray);
+}
+
+main {
+  min-height      : 100vh;
+  max-width       : 500px;
+  width           : 100vw;
+  background-color: var(--background-primary);
+  color           : var(--text-primary);
+  font-size       : calc(10px + 2vmin);
+  padding         : 0 1.4rem;
+}
+
+main>a>button {
+  padding: 2px !important;
+}
+
+.row {
+  display        : flex;
+  flex-direction : column;
+  align-items    : center;
+  justify-content: center;
+}
+
+header {
+  display        : flex;
+  align-items    : center;
+  justify-content: space-between;
+  padding-top    : 1.5rem;
+  transition     : all .3s ease;
+}
+
+.header-text {
+  font-family: "Catamaran", sans-serif;
+}
+
+header,
+.editModalActions,
+.closeSelectBtn,
+.edit,
+.delete {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.header-image {
+  width        : 60px;
+  height       : 60px;
+  border-radius: 50%;
+  object-fit   : cover;
+  font-size    : 16px;
+}
+
+.header-image:active {
+  scale     : 0.8;
+  transition: all .1s ease;
+}
+
+.header-nobold {
+  font-family: "Catamaran", sans-serif;
+}
+
+.selectModal {
+  background-color               : rgb(9, 184, 253);
+  background-color               : var(--main-color);
+  padding                        : 0 1.4rem;
+  position                       : absolute;
+  inset                          : 0;
+  max-width                      : 500px;
+  height                         : 70px;
+  margin                         : 0 auto;
+  display                        : flex;
+  align-items                    : center;
+  justify-content                : space-between;
+  /* animation                   : fadeIn .3s ease-in; */
+  /* transition                  : all .3s ease-in-out; */
+  box-shadow                     : 0 1px 2px 0 rgb(60 64 67 / 30%),
+    0 2px 6px 2px rgb(60 64 67 / 15%);
+  z-index  : 10000;
+  font-size: 1rem;
+  font-size: 24px;
+
+  will-change: opacity;
+  will-change: scale;
+  will-change: height;
+  will-change: border-radius;
+}
+
+.loading {
+  /* display            : flex; */
+  /* gap             : 0.8rem; */
+  max-width          : 440px;
+  margin-bottom      : 1.3rem;
+  padding            : .5rem 0;
+  /* height          : 0px !important; */
+  background-color   : rgb(230, 134, 8);
+}
+
+.close {
+  opacity         : 0;
+  visibility      : hidden;
+  scale           : .8;
+  transform       : translateY(-20px);
+  background-color: rgb(219, 5, 226);
+}
+
+
+
+.selecting {
+  max-width : 500px;
+  height    : 70px;
+  opacity   : 1;
+  transition: all .3s ease;
+  visibility: visible;
+  border    : 3px solid red;
+}
+
+@keyframes selectMount {
+  from {
+    opacity   : 0;
+    /* scale  : 0;
+    height    : 0px; */
+
+    /* border-radius: 1rem; */
+  }
+
+  to {
+    opacity   : 1;
+    /* scale  : 1;
+    height    : 70px; */
+
+    /* border-radius: 0; */
+  }
+}
+
+@keyframes selectUnmount {
+  from {
+    opacity   : 1;
+    /* scale  : 1;
+    height    : 70px; */
+  }
+
+  to {
+    opacity         : 0;
+    /* scale        : .8;
+    height          : 54px; */
+    /* border-radius: 1rem; */
+  }
+}
+
+@keyframes exitDeleteToast {
+  from {}
+
+  to {
+    scale: 0;
+  }
+}
+
+@keyframes cancelDeleteToast {
+  from {
+    transform: translateY(0px);
+    max-width: 300px;
+    padding  : 1rem;
+    font-size: 1rem;
+  }
+
+  to {
+    transform: translateY(164px);
+    max-width: 0px;
+    padding  : 0;
+    font-size: 0;
+  }
+}
+
+
+@keyframes LoadingToastOpen {
+  from {
+    max-width    : 300px;
+    border-radius: .5rem;
+
+  }
+
+  to {
+    max-width    : 200px;
+    border-radius: 1rem;
+
+  }
+}
+
+@keyframes enterDeleteToast {
+  from {
+    transform   : translateY(164px);
+    /* transform: rotateY(180deg); */
+    max-width   : 0px;
+    padding     : 0;
+    font-size   : 0;
+  }
+
+  to {
+    transform   : translateY(0);
+    /* transform: rotateY(0deg); */
+    max-width   : 300px;
+    padding     : 1rem;
+    font-size   : 1rem;
+  }
+}
+
+html[theme="dark"] .react-loading-skeleton {
+  --base-color     : #171717 !important;
+  --highlight-color: #ffffff08 !important;
+}
+
+@keyframes enterTools {
+  from {
+    opacity     : 0;
+    scale       : 0;
+    /* transform: translateY(-40px); */
+    transform   : translateY(-80px);
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes exitTools {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity  : 0;
+    scale    : 0;
+    transform: translateY(-80px);
+  }
+}
+
+.selectCount {
+  font-size  : 30px;
+  margin-top : -6px;
+  cursor     : default;
+  user-select: none;
+  color      : white;
+}
+
+.selectionContainer {
+  position       : relative;
+  height         : 50px;
+  width          : 100%;
+  display        : flex;
+  justify-content: flex-end;
+  align-items    : center;
+}
+
+.selectionContainer>button {
+  position           : absolute;
+  padding            : 7px 7px;
+  /* color           : rgb(9, 184, 253); */
+  color              : var(--btn-text-primary);
+  background-color   : transparent;
+  border             : 0;
+  cursor             : pointer;
+}
+
+.header-image,
+.profile,
+.edit,
+.delete,
+.closeSelectBtn {
+  cursor: pointer;
+}
+
+.closeSelectBtn {
+  transition      : stroke .1s ease;
+  background-color: #ffffff00;
+  border-radius   : 50%;
+  width           : 35px;
+  height          : 35px;
+  padding         : 6px;
+  border          : 0;
+  transition      : all .1s ease;
+}
+
+.closeSelectBtn:active {
+  background-color: #ffffff4a;
+}
+
+.edit {
+  color: var(--btn-text-primary);
+}
+
+.delete {
+  color: rgb(255, 0, 0);
+}
+
+.btn.discardBtn,
+.btn.continueBtn {
+  padding      : .5rem .3rem;
+  border       : 0;
+  border-radius: .5rem;
+  font-size    : 18px;
+  min-width    : 100px;
+  cursor       : pointer;
+  user-select  : none;
+  margin       : 0 5px;
+
+}
+
+.btn.continueBtn {
+  background-color: rgb(7, 174, 240);
+  color           : var(--text-primary);
+
+}
+
+/* .btn.discardBtn {} */
+
+.selectModal div {
+  display          : flex;
+  align-items      : center;
+  gap              : 5px;
+  /* gap           : .7rem; */
+  /* font-size     : 24px; */
+  /* font-size     : 22px; */
+}
+
+.selectModal button {
+  border                : none;
+  /* background-color   : rgb(240, 63, 63); */
+  padding               : 12px 11px;
+  background-color      : var(--background-primary);
+  border-radius         : 15px;
+  cursor                : pointer;
+  user-select           : none;
+  font-size             : 1rem;
+  margin                : 0 5px;
+}
+
+.selectModal button:active {
+  background-color: rgba(255 255 255 / .8);
+}
+
+.disabled {
+  opacity       : .4;
+  pointer-events: none;
+}
+
+#editModal,
+#confirmModal,
+#updating {
+  background  : unset;
+  border      : unset;
+  margin      : 0 auto;
+  min-height  : 100vh;
+  /* transform: translate(0px,90px); */
+}
+
+.editModal,
+.closeConfirmModal {
+  outline  : 0;
+  width    : 420px;
+  max-width: 92vw;
+  position : fixed;
+  top      : 50%;
+  left     : 50%;
+  transform: translate(-50%, -50%);
+  border   : 0;
+  animation: fadeIn .3s ease-in-out;
+  overflow : auto;
+}
+
+.closeConfirmModal {
+  /* background-color: rgba(255, 255, 255, 0.562); */
+  background      : rgba(255, 255, 255, 0.01);
+  background-color: var(--background-primary);
+  height          : 200px;
+  padding         : 1rem;
+  width           : 350px;
+  max-width       : 97vw;
+  display         : flex;
+  justify-content : center;
+  flex-direction  : column;
+  gap             : 1rem;
+  border-radius   : .5rem;
+  backdrop-filter : blur(6px);
+  border          : 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow      : 0px 4px 20px rgba(102, 102, 102, 0.267);
+  /* box-shadow   : 0 4px 30px rgba(0, 0, 0, 0.1); */
+}
+
+li.todo {
+  animation: fadeIn .35s ease-in;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.editContainer {
+  height: 40vh;
+  width : 40ch;
+}
+
+
+#editModal::backdrop,
+.deleteModal::backdrop {
+  background-color   : rgba(0, 0, 1, 0.281);
+  backdrop-filter    : blur(16px);
+  margin             : 0 auto;
+  max-width          : 500px;
+  /* transition      : all .2s ease-in-out; */
+  animation          : fadeIn .2s ease-in;
+}
+
+#confirmModal::backdrop {
+  background-color: rgba(0, 0, 1, 0.589);
+  margin          : 0 auto;
+  max-width       : 500px;
+  transition      : all .3s ease-in-out;
+  animation       : fadeIn .2s ease-in;
+}
+
+.editModalActions {
+  display        : flex;
+  justify-content: flex-end;
+  margin-top     : 10px;
+  gap            : 1rem;
+
+}
+
+.editModalActions>button {
+  padding      : .5rem .3rem;
+  border       : 0;
+  border-radius: .5rem;
+  font-size    : 100%;
+  min-width    : 100px;
+  cursor       : pointer;
+  user-select  : none;
+
+}
+
+.editCloseBtn {
+  background-color: var(--background-primary);
+  color           : black;
+  width           : 100px;
+}
+
+.editCloseBtn:focus {
+  background-color: rgb(221, 221, 221);
+}
+
+.updateBtn {
+  background-color: rgb(7, 174, 240);
+  color           : white;
+  width           : 104px;
+}
+
+.updateBtn:focus {
+  background-color: rgb(11, 147, 201);
+}
+
+
+ul li {
+  list-style: none;
+}
+
+.todo {
+  display        : flex;
+  position       : relative;
+  gap            : 0.8rem;
+  max-width      : 700px;
+  margin-right   : 1rem;
+  margin-bottom  : 30px;
+  justify-content: space-between;
+  transition     : all .2s ease-in;
+  padding        : 10px;
+  padding-bottom : 0;
+}
+
+.test {
+  border          : 3px solid red;
+  width           : 100vw;
+  max-width       : 500px;
+  margin          : 0;
+  position        : fixed;
+  left            : 50%;
+  bottom          : 0;
+  transform       : translate(-50%);
+  padding         : .5rem;
+  font-size       : 1rem;
+  background-color: var(--main-color);
+}
+
+.selected {
+  background-color: var(--main-color);
+  border-radius   : 13px;
+  padding-bottom  : 10px;
+  transition      : all .3s ease-in-out;
+}
+
+.todo-label {
+  flex-wrap    : wrap;
+  max-width    : 85%;
+  text-align   : left;
+  overflow-wrap: break-word;
+}
+
+.todo:not(:last-child)::after {
+  content            : "";
+  position           : absolute;
+  left               : 0;
+  right              : 0;
+  bottom             : -35%;
+  bottom             : -15px;
+  height             : 1px;
+  background-color   : rgb(128, 128, 128);
+  /* background-color: rgb(226, 14, 14); */
+  opacity            : 0.2;
+}
+
+/* .todo:last-child::after {
+  display: none;
+} */
+
+.todo-parent {
+  text-align      : center;
+  /* height       : 432px; */
+  /* height       : 540px; */
+  height          : 520px;
+  height          : 419px;
+  height          : 65vh;
+  height          : 72vh;
+  padding-bottom  : 3rem;
+  min-height      : 400px;
+  overflow-y      : auto;
+  display         : block;
+}
+
+.todo-checkbox {
+  display: none;
+  margin : auto 0;
+}
+
+.todo-checkbox-fill {
+  margin: auto 0;
+}
+
+.checkbox-active {
+  display: block;
+}
+
+.todo-parent:hover .todo-checkbox {
+  display: block;
+  opacity: .5;
+}
+
+.btnParent {
+  position: absolute;
+  top     : 0;
+  right   : 6px;
+}
+
+.btn {
+  font-size       : 1.4rem;
+  color           : rgb(0, 0, 0);
+  padding         : 0.7rem;
+  background-color: transparent;
+  border          : none;
+}
+
+.btn:focus {
+  outline: none;
+}
+
+::-webkit-scrollbar {
+  width : 10px;
+  margin: 0 10rem;
+}
+
+@media (max-width: 991px) {
+  .todo-checkbox {
+    display: block;
+    opacity: .5;
+  }
+
+  .todo-parent::-webkit-scrollbar {
+    visibility: visible;
+  }
+
+  .todo-parent::-webkit-scrollbar-thumb {
+    visibility: visible;
+  }
+
+  .editCloseBtn:active {
+    background-color: rgb(221, 221, 221);
+  }
+
+  .updateBtn:active {
+    background-color: rgb(11, 147, 201);
+  }
+}
+
+.todo-parent:hover::-webkit-scrollbar {
+  opacity   : 1;
+  visibility: visible;
+}
+
+.todo-parent:hover::-webkit-scrollbar-thumb {
+  visibility: visible;
+  opacity   : 1;
+}
+
+*::-webkit-scrollbar {
+  opacity: 0;
+}
+
+*::-webkit-scrollbar-thumb {
+  visibility      : hidden;
+  opacity         : 0;
+  transition      : visibility 0.3s linear, opacity 0.3s linear;
+  background-color: rgba(100, 100, 100, 0.1);
+  scrollbar-width : thin;
+  border-radius   : 6px;
+}
+
+*::-webkit-scrollbar-track {
+  border-radius  : 10px;
+  scrollbar-width: thin;
+}
+
+.nav {
+  width           : 100vw;
+  display         : flex;
+  gap             : 3em;
+  justify-content : center;
+  align-items     : center;
+  /* width        : 100vw; */
+  max-width       : 500px;
+  height          : 14vh;
+  position        : fixed;
+  bottom          : 5%;
+  bottom          : 0;
+  left            : 50%;
+  transform       : translate(-50%);
+  padding         : 0 1.5rem;
+  z-index         : 20000;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 13.94%, var(--background-primary) 54.73%);
+}
+
+.nav form {
+  display        : flex;
+  flex           : 1;
+  justify-content: center;
+  align-items    : center;
+  /* width       : 100vw; */
+  /* max-width   : 323px; */
+  gap            : 0.5rem;
+}
+
+.add-btn-parent {
+  /* position           : absolute; */
+  right              : 5%;
+  /* right           : 0; */
+  bottom             : 0;
+  background-color   : rgb(51, 153, 255);
+  border             : None;
+  padding            : 1rem;
+  cursor             : pointer;
+  width              : 70px;
+  height             : 70px;
+  border-radius      : 50px;
+  font-size          : 2rem;
+  display            : flex;
+  justify-content    : center;
+  align-items        : center;
+  box-shadow         : 0px 3px 10px rgba(0, 0, 0, 0.4);
+  color              : white;
+}
+
+.add-btn-parent>svg {
+  stroke-width: 1;
+}
+
+/* .add-btn {
+  position: relative;
+} */
+
+.input-text {
+  border          : 1px solid rgba(0, 0, 0, .2);
+  background-color: var(--background-gray);
+  border-radius   : 5px;
+  padding         : 0.5em;
+  /* width        : 228px; */
+  font-size       : 1rem;
+  /* display      : flex; */
+  flex            : 1;
+  width           : 100%;
+}
+
+.tools {
+  min-width             : 160px;
+  position              : absolute;
+  top                   : -19px;
+  right                 : 3px;
+  background-color      : var(--background-primary);
+  z-index               : 100;
+  gap                   : 0.5em;
+  border-radius         : 8px;
+  /* box-shadow         : 0px 5px 12px 0px rgb(0 0 1 / 32%); */
+  box-shadow            : var(--shadow-primary);
+  font-size             : 1rem;
+  transform-origin      : top right;
+  will-change           : opacity;
+  will-change           : transform;
+  will-change           : scale;
+}
+
+.tools-container {
+  margin  : 10px 0;
+  display : block;
+  overflow: hidden;
+}
+
+.tools-container>div {
+  cursor     : pointer;
+  user-select: none;
+  text-align : left;
+}
+
+.setting-item,
+.delete-parent {
+  display                    : flex;
+  justify-content            : center;
+  align-items                : center;
+  padding                    : 9px 13px;
+  display                    : flex;
+  justify-content            : flex-start;
+  align-items                : center;
+  gap                        : 6px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.setting-item:hover,
+.delete-parent:hover {
+  /* background-color: rgba(219, 17, 17, 0.103); */
+  background-color: rgb(232 232 232 / 92%);
+}
+
+@media only screen and (max-width: 600px) {
+  /* .setting-item */
+}
+
+.editInput {
+  width                    : 100%;
+  position                 : relative;
+  /* height                : calc(50% + 20px); */
+  padding                  : 20px;
+  background-color         : white;
+  overflow                 : auto;
+  border-radius            : 20px;
+  /* position              : rel; */
+  outline                  : none;
+}
+
+.textarea {
+  resize     : none;
+  font-size  : 1.2rem;
+  width      : 100%;
+  font-family: sans-serif;
+  height     : 400px;
+  border     : 0;
+  outline    : 0;
+}
+
+.nav-icon-parent {
+  z-index         : 100;
+  text-align      : center;
+  display         : flex;
+  justify-content : center;
+  align-items     : center;
+  position        : absolute;
+  background-color: transparent;
+  width           : 50px;
+  height          : 50px;
+  border-radius   : 50%;
+  right           : -32px;
+  top             : -14px;
+}
+
+.content .row {
+  font-size: 16px;
+}
+
+.dropdown {
+  position: relative;
+}
